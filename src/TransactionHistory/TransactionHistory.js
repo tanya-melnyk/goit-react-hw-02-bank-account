@@ -41,9 +41,6 @@ const TypeColumn = styled(Column)`
   text-align: left;
 `;
 
-const formatedNumber = num =>
-  parseFloat(Math.round(num * 100) / 100).toFixed(2);
-
 const TransactionHistory = ({ items }) => {
   return (
     <Table>
@@ -58,7 +55,7 @@ const TransactionHistory = ({ items }) => {
         {items.map(transaction => (
           <tr key={transaction.id}>
             <TypeColumn>{transaction.type}</TypeColumn>
-            <Column>{formatedNumber(transaction.amount)}$</Column>
+            <Column>{transaction.amount}$</Column>
             <Column>{transaction.date}</Column>
           </tr>
         ))}

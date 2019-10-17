@@ -19,6 +19,9 @@ const notifyMsg = {
     '❗️ There are not enough funds on the account to make a withdrawal!',
 };
 
+const formatedNumber = num =>
+  parseFloat(Math.round(num * 100) / 100).toFixed(2);
+
 export default class Dashboard extends Component {
   state = {
     transactions: [],
@@ -26,12 +29,12 @@ export default class Dashboard extends Component {
   };
 
   handleDeposit = amount => {
-    this.setState(({ transactions, balance }) => {
-      if (amount === 0 || amount === '') {
-        toast.info(notifyMsg.zeroAmount);
-        return { transactions, balance };
-      }
+    if (amount <= 0 || amount === '') {
+      toast.info(notifyMsg.zeroAmount);
+      return;
+    }
 
+    this.setState(({ transactions, balance }) => {
       const newTransaction = {
         id: uuidv1(),
         type: 'deposit',
@@ -47,17 +50,17 @@ export default class Dashboard extends Component {
   };
 
   handleWithdraw = amount => {
+    if (this.state.balance < amount) {
+      toast.warning(notifyMsg.notEnaughMoney);
+      return;
+    }
+
+    if (amount <= 0 || amount === '') {
+      toast.info(notifyMsg.zeroAmount);
+      return;
+    }
+
     this.setState(({ transactions, balance }) => {
-      if (balance < amount) {
-        toast.warning(notifyMsg.notEnaughMoney);
-        return { transactions, balance };
-      }
-
-      if (amount === 0 || amount === '') {
-        toast.info(notifyMsg.zeroAmount);
-        return { transactions, balance };
-      }
-
       const newTransaction = {
         id: uuidv1(),
         type: 'withdrawal',
@@ -72,18 +75,33 @@ export default class Dashboard extends Component {
     });
   };
 
-  countTotalSumOf(transactionType) {
+  countTotalSumByTransTypes() {
     const { transactions } = this.state;
 
-    return transactions
-      .filter(transaction => transaction.type === transactionType)
-      .reduce((sum, transaction) => sum + transaction.amount, 0);
+    return transactions.reduce(
+      (total, transaction) => {
+        return {
+          ...total,
+          [transaction.type]: total[transaction.type] + transaction.amount,
+        };
+      },
+      {
+        deposit: 0,
+        withdrawal: 0,
+      },
+    );
   }
 
   render() {
     const { transactions, balance } = this.state;
-    const totalIncome = this.countTotalSumOf('deposit');
-    const totalExpenses = this.countTotalSumOf('withdrawal');
+    const { deposit, withdrawal } = this.countTotalSumByTransTypes();
+
+    const formatedTransactions = transactions.map(transaction => {
+      return {
+        ...transaction,
+        amount: formatedNumber(transaction.amount),
+      };
+    });
 
     return (
       <Container>
@@ -92,11 +110,11 @@ export default class Dashboard extends Component {
           onWithdraw={this.handleWithdraw}
         />
         <Balance
-          balance={balance}
-          income={totalIncome}
-          expenses={totalExpenses}
+          balance={formatedNumber(balance)}
+          income={formatedNumber(deposit)}
+          expenses={formatedNumber(withdrawal)}
         />
-        <TransactionHistory items={transactions} />
+        <TransactionHistory items={formatedTransactions} />
         <ToastContainer />
       </Container>
     );

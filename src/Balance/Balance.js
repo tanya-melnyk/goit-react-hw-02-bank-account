@@ -18,9 +18,6 @@ const Emoji = styled.span`
   margin-right: 2px;
 `;
 
-const formatedNumber = num =>
-  parseFloat(Math.round(num * 100) / 100).toFixed(2);
-
 const Balance = ({ balance, income, expenses }) => {
   return (
     <Section>
@@ -30,7 +27,7 @@ const Balance = ({ balance, income, expenses }) => {
             ⬆️
           </span>
         </Emoji>
-        {formatedNumber(income)}$
+        {income}$
       </Item>
       <Item>
         <Emoji>
@@ -38,9 +35,9 @@ const Balance = ({ balance, income, expenses }) => {
             ⬇️
           </span>
         </Emoji>
-        {formatedNumber(expenses)}$
+        {expenses}$
       </Item>
-      <span>Balance: {formatedNumber(balance)}$</span>
+      <span>Balance: {balance}$</span>
     </Section>
   );
 };
