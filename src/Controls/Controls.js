@@ -58,10 +58,18 @@ export default class Controls extends Component {
 
   handleDeposit = () => {
     this.props.onDeposit(this.state.inputValue);
+
+    this.reset();
   };
 
   handleWithdraw = () => {
     this.props.onWithdraw(this.state.inputValue);
+
+    this.reset();
+  };
+
+  reset = () => {
+    this.setState({ inputValue: '' });
   };
 
   render() {
