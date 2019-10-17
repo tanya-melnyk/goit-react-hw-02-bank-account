@@ -5,21 +5,21 @@ import T from 'prop-types';
 const Section = styled.section`
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
+  padding: 40px;
+  background-color: #002757;
 `;
 
 const Button = styled.button`
   display: inline-block;
-  min-width: 240px;
+  min-width: 144px;
   border: 0;
-  padding: 8px 16px;
-  margin-left: 4px;
-  margin-right: 4px;
+  padding: 4px 16px;
+  margin-left: 16px;
   background-color: #3884ff;
   border-radius: 3px;
   transition: all 200ms ease;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 24px;
   font-style: normal;
@@ -34,6 +34,13 @@ const Button = styled.button`
   }
 `;
 
+const Input = styled.input`
+  min-width: 200px;
+  border-radius: 3px;
+  border: none;
+  text-indent: 0.4rem;
+`;
+
 export default class Controls extends Component {
   static propTypes = {
     onDeposit: T.func.isRequired,
@@ -41,7 +48,7 @@ export default class Controls extends Component {
   };
 
   state = {
-    inputValue: 0,
+    inputValue: '',
   };
 
   handleInput = e => {
@@ -59,11 +66,10 @@ export default class Controls extends Component {
 
   render() {
     const { inputValue } = this.state;
-    // const { onDeposit, onWithdraw } = this.props;
 
     return (
       <Section>
-        <input
+        <Input
           type="number"
           name="amount"
           value={inputValue}

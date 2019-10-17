@@ -1,47 +1,69 @@
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import T from 'prop-types';
 
-// const Article = styled.article`
-//   padding: 24px;
-//   border: 1px none #e6ecf1;
-//   border-radius: 2px;
-//   background-color: #fff;
-//   box-shadow: 0 6px 28px 0 rgba(24, 52, 117, 0.2);
-// `;
+const Table = styled.table`
+  margin: 0 auto;
+  box-shadow: 0px 1px 4px 0px rgba(184, 184, 184, 1);
+  border-width: 1px;
+  border-collapse: collapse;
+  border-radius: 2px;
+  overflow: hidden;
+`;
 
-// const Title = styled.h2`
-//   font-weight: 500;
-//   margin-top: 0;
-//   margin-bottom: 0;
-// `;
+const TableHead = styled.th`
+  padding: 14px 50px;
+  width: 33.3%;
+  background-color: #eef0f5;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  border-right: 1px solid #fff;
+  :last-child {
+    border-right: none;
+  }
+`;
 
-// const Text = styled.p`
-//   font-weight: 300;
-//   line-height: 1.5;
-//   margin-bottom: 0;
-// `;
+const Column = styled.td`
+  width: 33.3%;
+  padding: 10px 50px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #eef0f5;
+  color: #85888a;
+`;
+
+const TypeColumn = styled(Column)`
+  padding-left: 70px;
+  text-transform: capitalize;
+  text-align: left;
+`;
+
+const formatedNumber = num =>
+  parseFloat(Math.round(num * 100) / 100).toFixed(2);
 
 const TransactionHistory = ({ items }) => {
   return (
-    <table className="history">
+    <Table>
       <thead>
         <tr>
-          <th>Transaction</th>
-          <th>Amount</th>
-          <th>Date</th>
+          <TableHead>Transaction</TableHead>
+          <TableHead>Amount</TableHead>
+          <TableHead>Date</TableHead>
         </tr>
       </thead>
       <tbody>
         {items.map(transaction => (
           <tr key={transaction.id}>
-            <td>{transaction.type}</td>
-            <td>{transaction.amount}$</td>
-            <td>{transaction.date}</td>
+            <TypeColumn>{transaction.type}</TypeColumn>
+            <Column>{formatedNumber(transaction.amount)}$</Column>
+            <Column>{transaction.date}</Column>
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 

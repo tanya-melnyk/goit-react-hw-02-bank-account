@@ -6,9 +6,7 @@ import Dashboard from '../Dashboard';
 const App = () => (
   <>
     <GlobalStyle />
-    <div>
-      <Dashboard />
-    </div>
+    <Dashboard />
   </>
 );
 
