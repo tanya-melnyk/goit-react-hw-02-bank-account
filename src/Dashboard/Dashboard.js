@@ -14,9 +14,9 @@ const Container = styled.div`
 `;
 
 const notifyMsg = {
-  zeroAmount: 'Enter some amount to create a transaction!',
+  zeroAmount: '⬅️ Enter some amount to create a transaction!',
   notEnaughMoney:
-    'There are not enough funds on the account to make a withdrawal!',
+    '❗️ There are not enough funds on the account to make a withdrawal!',
 };
 
 export default class Dashboard extends Component {
@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
   handleDeposit = amount => {
     this.setState(({ transactions, balance }) => {
       if (amount === 0 || amount === '') {
-        toast(notifyMsg.zeroAmount);
+        toast.info(notifyMsg.zeroAmount);
         return { transactions, balance };
       }
 
@@ -49,12 +49,12 @@ export default class Dashboard extends Component {
   handleWithdraw = amount => {
     this.setState(({ transactions, balance }) => {
       if (balance < amount) {
-        toast(notifyMsg.notEnaughMoney);
+        toast.warning(notifyMsg.notEnaughMoney);
         return { transactions, balance };
       }
 
       if (amount === 0 || amount === '') {
-        toast(notifyMsg.zeroAmount);
+        toast.info(notifyMsg.zeroAmount);
         return { transactions, balance };
       }
 
