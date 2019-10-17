@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import styled from 'styled-components';
 import uuidv1 from 'uuid/v1';
 
 import Balance from '../Balance';
@@ -10,8 +10,7 @@ import TransactionHistory from '../TransactionHistory';
 
 const Container = styled.div`
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 `;
 
 const notifyMsg = {
